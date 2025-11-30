@@ -1,0 +1,28 @@
+services:
+  flask-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: flask-server
+    ports:
+      - "8080:8080"
+    networks:
+      - custom-network
+    restart: unless-stopped
+
+  curl-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: curl-client
+    depends_on:
+      - flask-server
+    networks:
+      - custom-network
+    restart: unless-stopped
+
+networks:
+  custom-network:
+    name: desafio1-network
+    driver: bridge
+
