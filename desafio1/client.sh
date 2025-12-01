@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Cliente iniciado. Fazendo requisições para o servidor Flask..."
+echo "Cliente iniciado. Fazendo requisiçoes para o servidor Flask..."
 echo "Servidor: http://flask-server:8080"
 echo ""
 
@@ -15,7 +15,7 @@ while true; do
     curl -s http://flask-server:8080/health
     echo ""
     echo ""
-    echo "Aguardando 5 segundos antes da próxima requisição..."
+    echo "Aguardando 5 segundos antes da proxima requisiçao..."
     sleep 5
 done
 

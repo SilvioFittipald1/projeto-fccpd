@@ -1,0 +1,43 @@
+services:
+  microservico-a:
+    build:
+      context: ./microservico-a
+      dockerfile: Dockerfile
+    container_name: microservico-a
+    ports:
+      - "5000:5000"
+    networks:
+      - microsservicos-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5000/health').raise_for_status()"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  microservico-b:
+    build:
+      context: ./microservico-b
+      dockerfile: Dockerfile
+    container_name: microservico-b
+    ports:
+      - "5001:5001"
+    environment:
+      MICROSERVICO_A_URL: http://microservico-a:5000
+    depends_on:
+      microservico-a:
+        condition: service_healthy
+    networks:
+      - microsservicos-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5001/health').raise_for_status()"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  microsservicos-network:
+    name: microsservicos-network
+    driver: bridge
+

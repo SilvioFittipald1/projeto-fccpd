@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: senha123
+      POSTGRES_DB: desafio2_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U usuario"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  cliente-db:
+    image: postgres:15-alpine
+    container_name: cliente-db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGUSER: usuario
+      PGPASSWORD: senha123
+      PGDATABASE: desafio2_db
+    command: >
+      sh -c "
+      echo 'Aguardando banco de dados...' &&
+      sleep 3 &&
+      echo 'Conectando ao banco e listando dados...' &&
+      psql -c 'SELECT * FROM usuarios ORDER BY id;' &&
+      echo '' &&
+      echo 'Total de registros:' &&
+      psql -c 'SELECT COUNT(*) as total FROM usuarios;'
+      "
+    restart: "no"
+
+volumes:
+  postgres_data:
+    name: desafio2_postgres_data
+

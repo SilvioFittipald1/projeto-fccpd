@@ -141,4 +141,3 @@ Para remover também as imagens:
 ```bash
 docker-compose down --rmi all
 ```
-

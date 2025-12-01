@@ -7,7 +7,7 @@ app = Flask(__name__)
 def hello():
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     return jsonify({
-        'message': 'Olá! Servidor Flask funcionando!',
+        'message': 'Servidor Flask funcionando!',
         'timestamp': timestamp,
         'status': 'success'
     })
