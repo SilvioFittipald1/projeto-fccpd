@@ -201,6 +201,3 @@ Conceitos abordados neste projeto:
 4. **Microsserviços:** Criação e comunicação de microsserviços independentes
 5. **API Gateway:** Implementação de gateway como ponto único de entrada
 
-## Licença
-
-Este projeto é parte de um curso/avaliação acadêmica.
